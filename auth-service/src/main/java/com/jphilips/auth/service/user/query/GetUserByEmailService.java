@@ -18,10 +18,12 @@ public class GetUserByEmailService implements Query<GetUserByEmailQuery, UserRes
     @Override
     public UserResponseDto execute(GetUserByEmailQuery query) {
 
+        var user = authManager.validateUser(query.email());
+
         // ownership check
-        authManager.checkOwnership(query.headerUserId() ,query.email());
+        authManager.checkOwnership(query.headerUserId() , user.getId());
 
         // exec common
-        return commonGetUserByEmailService.execute(query);
+        return commonGetUserByEmailService.execute(user);
     }
 }

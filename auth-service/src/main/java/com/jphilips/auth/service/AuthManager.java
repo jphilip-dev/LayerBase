@@ -46,15 +46,4 @@ public class AuthManager {
             throw new OwnerMismatchException(AuthErrorCode.OWNERSHIP_MISMATCH);
         }
     }
-
-    public void checkOwnership(Long headerUserId, String userEmail){
-
-        Long userId = validateUser(userEmail).getId();
-
-        if (!Objects.equals(headerUserId, userId)){
-            throw new OwnerMismatchException(AuthErrorCode.OWNERSHIP_MISMATCH);
-        }
-    }
-
-
 }

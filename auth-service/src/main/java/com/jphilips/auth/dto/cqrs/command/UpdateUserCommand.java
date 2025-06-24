@@ -7,6 +7,8 @@ import lombok.Builder;
 public record UpdateUserCommand(
         Long headerUserId,
         Long userId,
-        UserRequestDto userRequestDto
+        UserRequestDto userRequestDto,
+        Boolean isActive,
+        Boolean isAdmin
 ) {
 }

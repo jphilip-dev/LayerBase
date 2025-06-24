@@ -1,5 +1,6 @@
 package com.jphilips.auth.service.common.query;
 
+import com.jphilips.auth.entity.User;
 import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.auth.dto.cqrs.query.GetUserByEmailQuery;
 import com.jphilips.auth.dto.mapper.AuthMapper;
@@ -20,6 +21,11 @@ public class CommonGetUserByEmailService implements Query<GetUserByEmailQuery, U
 
         var user = authManager.validateUser(query.email());
 
+        return  execute(user);
+    }
+
+    public UserResponseDto execute(User user) {
         return authMapper.toDto(user);
     }
+
 }
