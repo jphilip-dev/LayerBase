@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.jphilips.auth-service' is invalid and this project uses 'com.jphilips.auth_service' instead.
+* The original package name 'com.jphilips.auth-service' is invalid and this project uses 'com.jphilips.auth' instead.
 
 # Getting Started
 
