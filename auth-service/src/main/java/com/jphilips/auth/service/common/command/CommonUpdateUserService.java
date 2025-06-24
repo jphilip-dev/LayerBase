@@ -29,6 +29,7 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
 
         if (!user.getEmail().equalsIgnoreCase(dto.getEmail())) {
             authManager.checkEmailAvailability(dto.getEmail());
+            user.setEmail(dto.getEmail());
         }
 
         user.setPassword(passwordEncoder.encode(dto.getPassword()));

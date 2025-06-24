@@ -38,7 +38,7 @@ public class AdminCommandController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<UserResponseDto> deleteUserById(
             @PathVariable Long id) {
 
@@ -46,7 +46,7 @@ public class AdminCommandController {
                 .userId(id)
                 .build();
 
-        var response = commonDeleteUserService.execute(command);
+        commonDeleteUserService.execute(command);
 
         return ResponseEntity.noContent().build();
     }

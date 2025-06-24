@@ -3,7 +3,11 @@ package com.jphilips.auth.controller.auth;
 import com.jphilips.auth.dto.LoginRequestDto;
 import com.jphilips.auth.dto.TokenResponseDto;
 import com.jphilips.auth.dto.UserRequestDto;
+import com.jphilips.auth.dto.cqrs.command.AuthenticateCommand;
 import com.jphilips.auth.dto.cqrs.command.CreateUserCommand;
+import com.jphilips.auth.dto.cqrs.command.ValidateTokenCommand;
+import com.jphilips.auth.service.auth.command.AuthenticateService;
+import com.jphilips.auth.service.auth.command.ValidateTokenService;
 import com.jphilips.auth.service.common.command.CommonCreateUserService;
 import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.shared.validator.groups.OnCreate;
@@ -21,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final CommonCreateUserService commonCreateUserService;
+    private final AuthenticateService authenticateService;
+    private final ValidateTokenService validateTokenService;
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> register(
@@ -34,9 +40,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<TokenResponseDto> login(
+            @Valid @RequestBody LoginRequestDto loginRequestDto) {
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new TokenResponseDto("test"));
+        var command = AuthenticateCommand.builder()
+                .loginRequestDto(loginRequestDto)
+                .build();
+
+        var response = authenticateService.execute(command);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 
     }
 
@@ -45,7 +58,13 @@ public class AuthController {
             @RequestHeader(value = "Authorization", required = false)
             String token) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        var command = ValidateTokenCommand.builder()
+                .token(token)
+                .build();
+
+        var response = validateTokenService.execute(command);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

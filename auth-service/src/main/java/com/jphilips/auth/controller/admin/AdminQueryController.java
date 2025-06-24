@@ -6,7 +6,6 @@ import com.jphilips.auth.dto.cqrs.query.GetUserByIdQuery;
 import com.jphilips.auth.service.common.query.CommonGetAllUsersService;
 import com.jphilips.auth.service.common.query.CommonGetUserByEmailService;
 import com.jphilips.auth.service.common.query.CommonGetUserByIdService;
-import com.jphilips.shared.dto.PagedResponse;
 import com.jphilips.shared.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +23,26 @@ public class AdminQueryController {
     private final CommonGetUserByIdService commonGetUserByIdService;
 
     @GetMapping("/users")
-    public ResponseEntity<PagedResponse<UserResponseDto>> getAllUsers(Pageable pageable) {
+    public ResponseEntity<?> getAllUsers(
+            @RequestParam(required = false) String email,
+            Pageable pageable) {
 
-        var response = commonGetAllUsersService.execute(new GetAllUsersQuery(pageable));
+        if (email != null) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+            var query = GetUserByEmailQuery.builder()
+                    .email(email)
+                    .build();
+
+            var response = commonGetUserByEmailService.execute(query);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } else {
+
+            var response = commonGetAllUsersService.execute(new GetAllUsersQuery(pageable));
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+
+
     }
 
     @GetMapping("/users/{id}")
@@ -43,16 +57,5 @@ public class AdminQueryController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<UserResponseDto> getUserByEmail(@RequestParam String email) {
-
-        var query = GetUserByEmailQuery.builder()
-                .email(email)
-                .build();
-
-        var response = commonGetUserByEmailService.execute(query);
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
 }
