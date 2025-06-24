@@ -1,16 +1,16 @@
 package com.jphilips.auth.dto.mapper;
 
-import com.jphilips.auth.dto.RegisterRequestDto;
+import com.jphilips.auth.dto.UserRequestDto;
+import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.auth.entity.Role;
 import com.jphilips.auth.entity.User;
-import com.jphilips.shared.dto.AuthResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthMapper {
 
-    public AuthResponseDto toDto(User user){
-        return AuthResponseDto.builder()
+    public UserResponseDto toDto(User user){
+        return UserResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .isActive(user.getIsActive())
@@ -20,9 +20,9 @@ public class AuthMapper {
                 .build();
     }
 
-    public User toEntity(RegisterRequestDto dto){
+    public User toEntity(UserRequestDto dto){
         return User.builder()
-                .email(dto.getEmail())
+                .email(dto.getEmail().toLowerCase())
                 .password(dto.getPassword())
                 .build();
     }

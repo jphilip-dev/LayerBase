@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegisterRequestDto {
+public class UserRequestDto {
 
     @Email(message = "{email.invalid}")
     @NotBlank(message = "{required.notnull}")

@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record AuthResponseDto(
+public record UserResponseDto(
         Long id,
         String email,
         Boolean isActive,
