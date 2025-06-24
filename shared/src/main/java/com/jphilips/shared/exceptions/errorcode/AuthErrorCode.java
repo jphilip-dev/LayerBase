@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum AuthErrorCode implements BaseErrorCode {
 
+    FORBIDDEN(HttpStatus.FORBIDDEN),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED),
+
     USER_NOT_FOUND(HttpStatus.NOT_FOUND),
     EMAIL_EXISTS(HttpStatus.BAD_REQUEST),
     OWNERSHIP_MISMATCH(HttpStatus.FORBIDDEN),
