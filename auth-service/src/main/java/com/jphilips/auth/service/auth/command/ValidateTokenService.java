@@ -1,7 +1,9 @@
 package com.jphilips.auth.service.auth.command;
 
 import com.jphilips.auth.dto.cqrs.command.ValidateTokenCommand;
+import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.exceptions.custom.MissingJwtException;
+import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.util.JwtUtil;
 import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
@@ -16,6 +18,8 @@ import java.util.List;
 public class ValidateTokenService implements Command<ValidateTokenCommand, UserResponseDto> {
 
     private final JwtUtil jwtUtil;
+    private final AuthManager  authManager;
+    private final AuthMapper authMapper;
 
     @Override
     public UserResponseDto execute(ValidateTokenCommand command) {
@@ -32,15 +36,13 @@ public class ValidateTokenService implements Command<ValidateTokenCommand, UserR
         var claims = jwtUtil.validateToken(token.substring(7));
 
         // Extract custom claims
-        String email = claims.get("email", String.class);
         Long id = claims.get("id", Long.class);
-        List<?> rawRoles = claims.get("roles", List.class);
 
-        List<String> roles = rawRoles.stream()
-                .map(Object::toString)  // convert each element to String safely
-                .toList();
+        var user = authManager.validateUser(id);
+
+        authManager.validateStatus(user);
 
         // Parse and return the AuthDetailsDto
-        return new UserResponseDto(id, email, null, roles);
+        return authMapper.toDto(user);
     }
 }
