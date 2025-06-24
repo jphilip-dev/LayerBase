@@ -1,0 +1,50 @@
+package com.jphilips.auth.service.auth.command;
+
+import com.jphilips.auth.dto.TokenResponseDto;
+import com.jphilips.auth.dto.cqrs.command.AuthenticateCommand;
+import com.jphilips.auth.exceptions.custom.PasswordMismatchException;
+import com.jphilips.auth.exceptions.custom.UserInactiveException;
+import com.jphilips.auth.service.AuthManager;
+import com.jphilips.auth.util.JwtUtil;
+import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
+import com.jphilips.shared.util.Command;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuthenticateService implements Command<AuthenticateCommand, TokenResponseDto> {
+
+    private final AuthManager authManager;
+
+    private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public TokenResponseDto execute(AuthenticateCommand command) {
+
+        // Extract payload
+        var loginRequestDto = command.loginRequestDto();
+
+        // Validate email
+        var user = authManager.validateUser(loginRequestDto.getEmail());
+
+        // Validate Password
+        if(!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())){
+            throw new PasswordMismatchException(AuthErrorCode.PASSWORD_MISMATCH);
+        }
+
+        // Check Account Status
+        if (!user.getIsActive()){
+            throw new UserInactiveException(AuthErrorCode.USER_INACTIVE);
+        }
+
+        // Generate Token
+        String token = jwtUtil.generateToken(user);
+
+        // Return TokenResponseDto
+        return new TokenResponseDto(token);
+    }
+
+}
