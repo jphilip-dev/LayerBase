@@ -26,6 +26,7 @@
         <module>api-gateway</module>
         <module>shared</module>
         <module>auth-service</module>
+        <module>user-details-service</module>
     </modules>
 
 </project>
