@@ -27,7 +27,7 @@ public class CommonDeleteUserService implements Command<DeleteUserCommand, Void>
 
         // delete user details using feign S2S
         feignCallerHelper.execute(
-                userDetailsClient.getClass().getSimpleName(),
+                UserDetailsClient.class.getSimpleName(),
                 () -> {
                    userDetailsClient.deleteUserDetails(userId);
                    return null;

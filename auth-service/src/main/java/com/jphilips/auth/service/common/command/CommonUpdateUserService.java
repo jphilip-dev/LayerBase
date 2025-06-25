@@ -57,7 +57,7 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
 
         // Rest call using feign S2S
         var response = feignCallerHelper.execute(
-                userDetailsClient.getClass().getSimpleName(),
+                UserDetailsClient.class.getSimpleName(),
                 () -> userDetailsClient.updateUserDetails(user.getId(),userDetailsRequestDto));
 
         // Save

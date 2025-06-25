@@ -11,6 +11,7 @@ import com.jphilips.auth.service.AuthManager;
 import com.jphilips.shared.util.Command;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,29 +57,10 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
 
         // Rest call using feign S2S
         var response = feignCallerHelper.execute(
-                userDetailsClient.getClass().getSimpleName(),
+                UserDetailsClient.class.getSimpleName(),
                 () -> userDetailsClient.createUserDetails(userDetailsRequestDto));
 
         // Convert and return
         return authMapper.toDto(savedUser);
     }
 }
-
-//
-//// Call user service to create the profile
-//        try {
-//var userDetailsDto = UserDetailsRequestDto.builder()
-//        .id(savedUser.getId())
-//        .name(userRequestDto.getName())
-//        .address(userRequestDto.getAddress())
-//        .birthDate(userRequestDto.getBirthDate())
-//        .build();
-//
-//// Rest call
-//            userDetailsClient.createUserDetails(userDetailsDto);
-//
-//        }catch (FeignException ex){
-//
-//        feignErrorHandler.handle(userDetailsClient.getClass().getSimpleName(),ex.contentUTF8());
-//
-//        }
