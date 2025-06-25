@@ -3,6 +3,7 @@ package com.jphilips.auth.service;
 import com.jphilips.auth.entity.User;
 import com.jphilips.auth.exceptions.custom.EmailAlreadyExistException;
 import com.jphilips.auth.exceptions.custom.OwnerMismatchException;
+import com.jphilips.auth.exceptions.custom.UserInactiveException;
 import com.jphilips.auth.exceptions.custom.UserNotFoundException;
 import com.jphilips.auth.repository.UserRepository;
 import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
@@ -44,6 +45,12 @@ public class AuthManager {
     public void checkOwnership(Long headerUserId, Long userId){
         if (!Objects.equals(headerUserId, userId)){
             throw new OwnerMismatchException(AuthErrorCode.OWNERSHIP_MISMATCH);
+        }
+    }
+
+    public void validateStatus(User user){
+        if (!user.getIsActive()){
+            throw new UserInactiveException(AuthErrorCode.USER_INACTIVE);
         }
     }
 }

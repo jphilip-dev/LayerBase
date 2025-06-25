@@ -36,9 +36,7 @@ public class AuthenticateService implements Command<AuthenticateCommand, TokenRe
         }
 
         // Check Account Status
-        if (!user.getIsActive()){
-            throw new UserInactiveException(AuthErrorCode.USER_INACTIVE);
-        }
+        authManager.validateStatus(user);
 
         // Generate Token
         String token = jwtUtil.generateToken(user);
