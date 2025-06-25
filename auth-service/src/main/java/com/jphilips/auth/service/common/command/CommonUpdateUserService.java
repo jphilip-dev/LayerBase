@@ -1,20 +1,29 @@
 package com.jphilips.auth.service.common.command;
 
+import com.jphilips.auth.config.FeignCallerHelper;
+import com.jphilips.auth.config.UserDetailsClient;
 import com.jphilips.auth.entity.User;
+import com.jphilips.shared.dto.UserDetailsRequestDto;
 import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.auth.dto.cqrs.command.UpdateUserCommand;
 import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.shared.util.Command;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommonUpdateUserService implements Command<UpdateUserCommand, UserResponseDto> {
 
     private final AuthMapper authMapper;
     private final AuthManager authManager;
+    private final FeignCallerHelper feignCallerHelper;
+
+    private final UserDetailsClient userDetailsClient;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -25,19 +34,36 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
     }
 
     public UserResponseDto execute(UpdateUserCommand command, User user) {
-        var dto = command.userRequestDto();
 
-        if (!user.getEmail().equalsIgnoreCase(dto.getEmail())) {
-            authManager.checkEmailAvailability(dto.getEmail());
-            user.setEmail(dto.getEmail());
+        // Extract payload
+        var userRequestDto = command.userRequestDto();
+
+        // Check if email changed
+        if (!user.getEmail().equalsIgnoreCase(userRequestDto.getEmail())) {
+            authManager.checkEmailAvailability(userRequestDto.getEmail());
+            user.setEmail(userRequestDto.getEmail());
         }
 
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        // Set new Password
+        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
 
-        // TODO: Call user profile to update name, address, and birthDate
+        // Create UserDetails Request Dto
+        var userDetailsRequestDto = UserDetailsRequestDto.builder()
+                .id(user.getId())
+                .name(userRequestDto.getName())
+                .address(userRequestDto.getAddress())
+                .birthDate(userRequestDto.getBirthDate())
+                .build();
 
+        // Rest call using feign S2S
+        var response = feignCallerHelper.execute(
+                userDetailsClient.getClass().getSimpleName(),
+                () -> userDetailsClient.updateUserDetails(user.getId(),userDetailsRequestDto));
+
+        // Save
         authManager.save(user);
 
+        // Convert and return
         return authMapper.toDto(user);
     }
 }
