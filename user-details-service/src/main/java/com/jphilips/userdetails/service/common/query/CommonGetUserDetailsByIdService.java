@@ -1,0 +1,25 @@
+package com.jphilips.userdetails.service.common.query;
+
+import com.jphilips.shared.util.Query;
+import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphilips.userdetails.dto.cqrs.GetUserDetailsByIdQuery;
+import com.jphilips.userdetails.dto.mapper.UserDetailsMapper;
+import com.jphilips.userdetails.service.UserDetailsManager;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class CommonGetUserDetailsByIdService implements Query<GetUserDetailsByIdQuery, UserDetailsResponseDto> {
+
+    private final UserDetailsMapper userDetailsMapper;
+    private final UserDetailsManager userDetailsManager;
+
+    @Override
+    public UserDetailsResponseDto execute(GetUserDetailsByIdQuery query) {
+
+        var details = userDetailsManager.validateById(query.userDetailsId());
+
+        return userDetailsMapper.toDto(details);
+    }
+}
