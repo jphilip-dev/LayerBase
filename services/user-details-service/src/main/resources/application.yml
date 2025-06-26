@@ -4,3 +4,6 @@ spring:
       - classpath:config/application-common-${spring.profiles.active:default}.properties
       - classpath:config/user-details-service/application-user-details-${spring.profiles.active:default}.properties
 
+mdc:
+  logging:
+    consumer: true
