@@ -7,6 +7,7 @@ import com.jphilips.shared.dto.ExceptionResponseDto;
 import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
 import com.jphilips.shared.exceptions.errorcode.BaseErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -24,6 +25,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Component
 public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFactory<RoleBasedAccessConfig> {
     private final WebClient webClient;
@@ -65,20 +67,37 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                                         .anyMatch(r -> r.equals(role.toUpperCase())));
 
                         if (!authorized) {
+
+                            // Log Unauthorized users trying to access Secured endpoints
+                            log.warn("[req:{}] [user:{}] Forbidden access to {}. Required: {}, User Roles: {}",
+                                    userDetails.requestId(),
+                                    userDetails.id(),
+                                    exchange.getRequest().getURI().getPath(),
+                                    config.getRoles(),
+                                    userDetails.roles());
+
                             return writeErrorResponse(exchange, AuthErrorCode.FORBIDDEN);
                         }
-                        
-                        
-                        
+
+                        // Log authorized access
+                        log.info("[req:{}] [user:{}] -> {} {}",
+                                userDetails.requestId(),
+                                userDetails.id(),
+                                exchange.getRequest().getMethod(),
+                                exchange.getRequest().getURI().getPath());
+
+
 
                         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                                 .headers(httpHeaders -> {
                                     httpHeaders.remove(HttpHeaders.AUTHORIZATION);
                                     httpHeaders.remove("X-User-Id");
                                     httpHeaders.remove("X-User-Email");
+                                    httpHeaders.remove("X-Request-Id");
                                 })
                                 .header("X-User-Id", userDetails.id().toString())
                                 .header("X-User-Email", userDetails.email())
+                                .header("X-Request-Id", userDetails.requestId())
                                 .build();
 
                         ServerWebExchange mutatedExchange = exchange.mutate()
@@ -88,6 +107,9 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                         return chain.filter(mutatedExchange);
                     })
                     .onErrorResume(error -> {
+
+                        log.error("[Gateway] Error calling auth service: {}", error.getMessage(), error);
+
                         if (error instanceof WebClientResponseException ex) {
                             exchange.getResponse().setStatusCode(ex.getStatusCode());
 
@@ -124,7 +146,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
         }
     }
 
-    private ExceptionResponseDto createErrorResponse(BaseErrorCode errorCode, String path){
+    private ExceptionResponseDto createErrorResponse(BaseErrorCode errorCode, String path) {
         return ExceptionResponseDto.builder()
                 .timestamp(LocalDateTime.now())
                 .status(errorCode.getStatus().value())
@@ -133,5 +155,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                 .path(path)
                 .build();
     }
+
+
 
 }

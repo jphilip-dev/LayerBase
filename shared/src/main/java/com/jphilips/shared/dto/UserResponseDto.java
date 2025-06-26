@@ -1,5 +1,6 @@
 package com.jphilips.shared.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
 import java.util.List;
@@ -9,5 +10,7 @@ public record UserResponseDto(
         Long id,
         String email,
         Boolean isActive,
-        List<String> roles) {
+        List<String> roles,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        String requestId) {
 }

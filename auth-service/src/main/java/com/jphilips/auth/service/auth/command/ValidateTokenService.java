@@ -9,9 +9,8 @@ import com.jphilips.shared.dto.UserResponseDto;
 import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
 import com.jphilips.shared.util.Command;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,9 +39,10 @@ public class ValidateTokenService implements Command<ValidateTokenCommand, UserR
 
         var user = authManager.validateUser(id);
 
+        // Inactive Check
         authManager.validateStatus(user);
 
         // Parse and return the AuthDetailsDto
-        return authMapper.toDto(user);
+        return authMapper.toDto(user, MDC.get("requestId"));
     }
 }
