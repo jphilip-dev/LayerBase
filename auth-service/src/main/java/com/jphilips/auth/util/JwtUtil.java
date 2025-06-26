@@ -59,4 +59,8 @@ public class JwtUtil {
                 .toMillis();
         return new Date(System.currentTimeMillis() + expirationMillis);
     }
+
+    public Long extractUserId(String token){
+        return validateToken(token).get("id", Long.class);
+    }
 }

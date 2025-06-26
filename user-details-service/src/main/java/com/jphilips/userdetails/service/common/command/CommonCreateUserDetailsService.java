@@ -6,8 +6,10 @@ import com.jphilips.userdetails.dto.cqrs.CreateUserDetailsCommand;
 import com.jphilips.userdetails.dto.mapper.UserDetailsMapper;
 import com.jphilips.userdetails.service.UserDetailsManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommonCreateUserDetailsService implements Command<CreateUserDetailsCommand, UserDetailsResponseDto> {
@@ -19,6 +21,8 @@ public class CommonCreateUserDetailsService implements Command<CreateUserDetails
     public UserDetailsResponseDto execute(CreateUserDetailsCommand command) {
 
         var userDetails = userDetailsMapper.toEntity(command.userDetailsRequestDto());
+
+        log.info("Creating new User Detail: {}" , userDetails.getName());
 
         userDetailsManager.save(userDetails);
 

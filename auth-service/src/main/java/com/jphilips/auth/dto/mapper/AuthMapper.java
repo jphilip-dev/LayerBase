@@ -20,6 +20,18 @@ public class AuthMapper {
                 .build();
     }
 
+    public UserResponseDto toDto(User user, String requestId){
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .isActive(user.getIsActive())
+                .roles(user.getRoles().stream()
+                        .map(Role::getName)
+                        .toList())
+                .requestId(requestId)
+                .build();
+    }
+
     public User toEntity(UserRequestDto dto){
         return User.builder()
                 .email(dto.getEmail().toLowerCase())

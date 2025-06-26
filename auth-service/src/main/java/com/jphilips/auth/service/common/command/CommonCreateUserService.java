@@ -11,7 +11,7 @@ import com.jphilips.auth.service.AuthManager;
 import com.jphilips.shared.util.Command;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.slf4j.MDC;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +46,9 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
 
         // Save user, manager logs the save
         var savedUser = authManager.save(newUser);
+
+        log.info("Created new User: {} with id: {}", savedUser.getEmail(), savedUser.getId());
+        log.info("MDC Request ID {}",MDC.get("requestId"));
 
         // Create UserDetails Request Dto
         var userDetailsRequestDto = UserDetailsRequestDto.builder()
