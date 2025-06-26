@@ -1,7 +1,7 @@
 package com.jphilips.userdetails.service.user.query;
 
-import com.jphilips.shared.util.Query;
-import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphiilips.shared.domain.util.Query;
+import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
 import com.jphilips.userdetails.dto.cqrs.GetUserDetailsByIdQuery;
 import com.jphilips.userdetails.service.UserDetailsManager;
 import com.jphilips.userdetails.service.common.query.CommonGetUserDetailsByIdService;

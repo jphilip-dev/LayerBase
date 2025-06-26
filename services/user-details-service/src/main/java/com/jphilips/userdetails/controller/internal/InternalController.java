@@ -1,7 +1,7 @@
 package com.jphilips.userdetails.controller.internal;
 
-import com.jphilips.shared.dto.UserDetailsRequestDto;
-import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
+import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
 import com.jphilips.userdetails.dto.cqrs.CreateUserDetailsCommand;
 import com.jphilips.userdetails.dto.cqrs.DeleteUserDetailsCommand;
 import com.jphilips.userdetails.dto.cqrs.GetUserDetailsByIdQuery;

@@ -1,6 +1,6 @@
 package com.jphilips.userdetails.dto.cqrs;
 
-import com.jphilips.shared.dto.UserDetailsRequestDto;
+import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
 import lombok.Builder;
 
 @Builder

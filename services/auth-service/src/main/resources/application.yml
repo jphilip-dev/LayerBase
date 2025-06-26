@@ -1,6 +1,6 @@
 spring:
   config:
     import:
-      - classpath:application-common-${spring.profiles.active:default}.properties
-      - classpath:auth-service/application-auth-${spring.profiles.active:default}.properties
+      - classpath:config/application-common-${spring.profiles.active:default}.properties
+      - classpath:config/auth-service/application-auth-${spring.profiles.active:default}.properties
 

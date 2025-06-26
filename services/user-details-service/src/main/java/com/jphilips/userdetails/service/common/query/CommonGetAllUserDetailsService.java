@@ -1,8 +1,8 @@
 package com.jphilips.userdetails.service.common.query;
 
-import com.jphilips.shared.dto.PagedResponse;
-import com.jphilips.shared.util.Query;
-import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphiilips.shared.domain.util.Query;
+import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
+import com.jphilips.shared.spring.util.PagedResponse;
 import com.jphilips.userdetails.dto.cqrs.GetAllUserDetailsQuery;
 import com.jphilips.userdetails.dto.mapper.UserDetailsMapper;
 import com.jphilips.userdetails.entity.UserDetails;

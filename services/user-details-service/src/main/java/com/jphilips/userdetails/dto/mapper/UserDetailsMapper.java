@@ -1,7 +1,7 @@
 package com.jphilips.userdetails.dto.mapper;
 
-import com.jphilips.shared.dto.UserDetailsRequestDto;
-import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
+import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
 import com.jphilips.userdetails.entity.UserDetails;
 import org.springframework.stereotype.Component;
 

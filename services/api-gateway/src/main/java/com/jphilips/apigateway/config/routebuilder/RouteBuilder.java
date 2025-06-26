@@ -1,7 +1,7 @@
 package com.jphilips.apigateway.config.routebuilder;
 
 import com.jphilips.apigateway.filter.JwtValidationGatewayFilterFactory;
-import com.jphilips.shared.enums.EnumRole;
+import com.jphiilips.shared.domain.enums.EnumRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.stereotype.Component;

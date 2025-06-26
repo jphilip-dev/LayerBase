@@ -1,7 +1,7 @@
 package com.jphilips.auth.exceptions.custom;
 
-import com.jphilips.shared.exceptions.custom.AppException;
-import com.jphilips.shared.exceptions.errorcode.BaseErrorCode;
+import com.jphiilips.shared.domain.exception.custom.AppException;
+import com.jphiilips.shared.domain.exception.errorcode.BaseErrorCode;
 
 public class UserInactiveException extends AppException {
     public UserInactiveException(BaseErrorCode errorCode) {

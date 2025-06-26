@@ -1,7 +1,7 @@
 package com.jphilips.auth.dto.mapper;
 
 import com.jphilips.auth.dto.UserRequestDto;
-import com.jphilips.shared.dto.UserResponseDto;
+import com.jphiilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.auth.entity.Role;
 import com.jphilips.auth.entity.User;
 import org.springframework.stereotype.Component;
