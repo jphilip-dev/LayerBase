@@ -35,10 +35,12 @@ public abstract class FeignCaller {
 
                 // Now map to your DTO
                 var dto = objectMapper.treeToValue(jsonNode, ExceptionResponseDto.class);
-
+                if(dto == null){
+                    throw new NullPointerException();
+                }
                 throw new InternalCallException(dto, sourceService);
 
-            } catch (JsonProcessingException e) {
+            } catch (NullPointerException | JsonProcessingException e) {
 
                 log.warn("Feign call to {} failed with content: {}", sourceService, ex.contentUTF8());
                 throw new AppException(CommonErrorCode.INTERNAL_CALL);
