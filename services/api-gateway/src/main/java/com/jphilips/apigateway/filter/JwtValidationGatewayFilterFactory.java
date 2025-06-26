@@ -2,12 +2,13 @@ package com.jphilips.apigateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jphiilips.shared.domain.exception.custom.AppException;
 import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphiilips.shared.domain.exception.errorcode.BaseErrorCode;
 import com.jphilips.apigateway.config.RoleBasedAccessConfig;
 import com.jphiilips.shared.domain.dto.ExceptionResponseDto;
 import com.jphiilips.shared.domain.dto.UserResponseDto;
-import com.jphilips.shared.spring.exception.ErrorCodeAdapter;
+import com.jphilips.shared.spring.exception.ExceptionResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -23,7 +24,6 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -32,16 +32,16 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
 
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
-    private final ErrorCodeAdapter errorCodeAdapter;
+    private final ExceptionResponseBuilder exceptionResponseBuilder;
 
 
     public JwtValidationGatewayFilterFactory(WebClient.Builder webClientBuilder,
                                              @Value("${AUTH_SERVICE_URI}") String authServiceUrl,
                                              ObjectMapper objectMapper,
-                                             ErrorCodeAdapter errorCodeAdapter) {
+                                             ExceptionResponseBuilder exceptionResponseBuilder) {
         super(RoleBasedAccessConfig.class);
         this.objectMapper = objectMapper;
-        this.errorCodeAdapter = errorCodeAdapter;
+        this.exceptionResponseBuilder = exceptionResponseBuilder;
         this.webClient = webClientBuilder.baseUrl(authServiceUrl).build();
     }
 
@@ -92,7 +92,6 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                                 exchange.getRequest().getURI().getPath());
 
 
-
                         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                                 .headers(httpHeaders -> {
                                     httpHeaders.remove(HttpHeaders.AUTHORIZATION);
@@ -135,13 +134,13 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
     }
 
 
-    private Mono<Void> writeErrorResponse(ServerWebExchange exchange, BaseErrorCode errorCode) {
+    private Mono<Void> writeErrorResponse(ServerWebExchange exchange, BaseErrorCode baseErrorCode) {
 
-        ExceptionResponseDto dto = createErrorResponse(errorCode, exchange.getRequest().getURI().getPath());
+        ExceptionResponseDto dto = getExceptionResponseDto(exchange, baseErrorCode);
 
         try {
             byte[] bytes = objectMapper.writeValueAsBytes(dto);
-            exchange.getResponse().setStatusCode(errorCodeAdapter.covertRawStatus(errorCode));
+            exchange.getResponse().setRawStatusCode(dto.status());
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
             return exchange.getResponse().writeWith(Mono.just(buffer));
@@ -151,19 +150,10 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
         }
     }
 
-    private ExceptionResponseDto createErrorResponse(BaseErrorCode errorCode, String path) {
-
-        var httpStatus = errorCodeAdapter.covertRawStatus(errorCode);
-
-        return ExceptionResponseDto.builder()
-                .timestamp(LocalDateTime.now())
-                .status(httpStatus.value())
-                .error(httpStatus.getReasonPhrase())
-                .code(errorCode.getCode())
-                .path(path)
-                .build();
+    private ExceptionResponseDto getExceptionResponseDto(ServerWebExchange exchange, BaseErrorCode baseErrorCode) {
+        return exceptionResponseBuilder
+                .buildFrom(new AppException(baseErrorCode), exchange.getRequest().getURI().getPath()).getBody();
     }
-
 
 
 }
