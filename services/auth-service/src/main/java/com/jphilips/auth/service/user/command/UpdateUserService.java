@@ -1,10 +1,10 @@
 package com.jphilips.auth.service.user.command;
 
 import com.jphilips.auth.service.AuthManager;
-import com.jphilips.shared.dto.UserResponseDto;
+import com.jphiilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.auth.dto.cqrs.command.UpdateUserCommand;
 import com.jphilips.auth.service.common.command.CommonUpdateUserService;
-import com.jphilips.shared.util.Command;
+import com.jphiilips.shared.domain.util.Command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

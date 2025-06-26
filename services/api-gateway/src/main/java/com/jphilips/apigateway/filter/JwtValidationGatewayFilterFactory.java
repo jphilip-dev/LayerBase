@@ -2,11 +2,12 @@ package com.jphilips.apigateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
+import com.jphiilips.shared.domain.exception.errorcode.BaseErrorCode;
 import com.jphilips.apigateway.config.RoleBasedAccessConfig;
-import com.jphilips.shared.dto.ExceptionResponseDto;
-import com.jphilips.shared.dto.UserResponseDto;
-import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
-import com.jphilips.shared.exceptions.errorcode.BaseErrorCode;
+import com.jphiilips.shared.domain.dto.ExceptionResponseDto;
+import com.jphiilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.spring.exception.ErrorCodeAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -28,15 +29,19 @@ import java.util.List;
 @Slf4j
 @Component
 public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFactory<RoleBasedAccessConfig> {
+
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
+    private final ErrorCodeAdapter errorCodeAdapter;
 
 
     public JwtValidationGatewayFilterFactory(WebClient.Builder webClientBuilder,
                                              @Value("${AUTH_SERVICE_URI}") String authServiceUrl,
-                                             ObjectMapper objectMapper) {
+                                             ObjectMapper objectMapper,
+                                             ErrorCodeAdapter errorCodeAdapter) {
         super(RoleBasedAccessConfig.class);
         this.objectMapper = objectMapper;
+        this.errorCodeAdapter = errorCodeAdapter;
         this.webClient = webClientBuilder.baseUrl(authServiceUrl).build();
     }
 
@@ -136,7 +141,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
 
         try {
             byte[] bytes = objectMapper.writeValueAsBytes(dto);
-            exchange.getResponse().setStatusCode(errorCode.getStatus());
+            exchange.getResponse().setStatusCode(errorCodeAdapter.covertRawStatus(errorCode));
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
             return exchange.getResponse().writeWith(Mono.just(buffer));
@@ -147,10 +152,13 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
     }
 
     private ExceptionResponseDto createErrorResponse(BaseErrorCode errorCode, String path) {
+
+        var httpStatus = errorCodeAdapter.covertRawStatus(errorCode);
+
         return ExceptionResponseDto.builder()
                 .timestamp(LocalDateTime.now())
-                .status(errorCode.getStatus().value())
-                .error(errorCode.getStatus().getReasonPhrase())
+                .status(httpStatus.value())
+                .error(httpStatus.getReasonPhrase())
                 .code(errorCode.getCode())
                 .path(path)
                 .build();

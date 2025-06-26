@@ -1,12 +1,12 @@
 package com.jphilips.auth.config;
 
-import com.jphilips.shared.dto.UserDetailsRequestDto;
-import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
+import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "user-details-service",  url = "${USER_DETAILS_SERVICE_URL}")
+@FeignClient(name = "configs/user-details-service",  url = "${USER_DETAILS_SERVICE_URL}")
 public interface UserDetailsClient {
 
     @PostMapping("/internal/user-details")

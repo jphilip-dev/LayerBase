@@ -1,7 +1,7 @@
 package com.jphilips.userdetails.service.user.command;
 
-import com.jphilips.shared.util.Command;
-import com.jphilips.shared.dto.UserDetailsResponseDto;
+import com.jphiilips.shared.domain.util.Command;
+import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
 import com.jphilips.userdetails.dto.cqrs.UpdateUserDetailsCommand;
 import com.jphilips.userdetails.service.UserDetailsManager;
 import com.jphilips.userdetails.service.common.command.CommonUpdateUserDetailsService;

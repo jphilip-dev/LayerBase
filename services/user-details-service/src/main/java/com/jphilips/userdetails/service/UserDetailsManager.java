@@ -1,6 +1,6 @@
 package com.jphilips.userdetails.service;
 
-import com.jphilips.shared.exceptions.errorcode.UserDetailsErrorCode;
+import com.jphiilips.shared.domain.exception.errorcode.UserDetailsErrorCode;
 import com.jphilips.userdetails.entity.UserDetails;
 import com.jphilips.userdetails.exceptions.customs.OwnershipMismatchException;
 import com.jphilips.userdetails.exceptions.customs.UserDetailsNotFoundException;

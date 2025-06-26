@@ -1,13 +1,12 @@
 package com.jphilips.auth.service.auth.command;
 
+import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphilips.auth.dto.TokenResponseDto;
 import com.jphilips.auth.dto.cqrs.command.AuthenticateCommand;
 import com.jphilips.auth.exceptions.custom.PasswordMismatchException;
-import com.jphilips.auth.exceptions.custom.UserInactiveException;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.util.JwtUtil;
-import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
-import com.jphilips.shared.util.Command;
+import com.jphiilips.shared.domain.util.Command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

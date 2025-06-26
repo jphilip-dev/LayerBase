@@ -1,4 +1,4 @@
 spring:
   config:
     import:
-      - classpath:api-gateway/application-gateway-${spring.profiles.active:default}.properties
+      - classpath:config/api-gateway/application-gateway-${spring.profiles.active:default}.properties

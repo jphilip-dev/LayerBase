@@ -1,14 +1,14 @@
 package com.jphilips.auth.service.common.command;
 
-import com.jphilips.auth.config.FeignCallerHelper;
 import com.jphilips.auth.config.RoleSeeder;
 import com.jphilips.auth.config.UserDetailsClient;
-import com.jphilips.shared.dto.UserDetailsRequestDto;
-import com.jphilips.shared.dto.UserResponseDto;
+import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
+import com.jphiilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.auth.dto.cqrs.command.CreateUserCommand;
 import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.service.AuthManager;
-import com.jphilips.shared.util.Command;
+import com.jphiilips.shared.domain.util.Command;
+import com.jphilips.shared.spring.config.FeignCaller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -23,8 +23,8 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
     private final AuthMapper authMapper;
     private final AuthManager authManager;
     private final RoleSeeder roleSeeder;
-    private final FeignCallerHelper feignCallerHelper;
 
+    private final FeignCaller feignCaller;
     private final UserDetailsClient userDetailsClient;
     private final PasswordEncoder passwordEncoder;
 
@@ -59,7 +59,7 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
                 .build();
 
         // Rest call using feign S2S
-        var response = feignCallerHelper.execute(
+        var response = feignCaller.callWithErrorHandling(
                 UserDetailsClient.class.getSimpleName(),
                 () -> userDetailsClient.createUserDetails(userDetailsRequestDto));
 

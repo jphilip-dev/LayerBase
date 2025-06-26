@@ -3,7 +3,7 @@ package com.jphilips.auth.service.user.command;
 import com.jphilips.auth.dto.cqrs.command.DeleteUserCommand;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.service.common.command.CommonDeleteUserService;
-import com.jphilips.shared.util.Command;
+import com.jphiilips.shared.domain.util.Command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

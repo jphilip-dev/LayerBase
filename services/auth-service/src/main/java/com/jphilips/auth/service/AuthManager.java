@@ -1,12 +1,12 @@
 package com.jphilips.auth.service;
 
+import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphilips.auth.entity.User;
 import com.jphilips.auth.exceptions.custom.EmailAlreadyExistException;
 import com.jphilips.auth.exceptions.custom.OwnerMismatchException;
 import com.jphilips.auth.exceptions.custom.UserInactiveException;
 import com.jphilips.auth.exceptions.custom.UserNotFoundException;
 import com.jphilips.auth.repository.UserRepository;
-import com.jphilips.shared.exceptions.errorcode.AuthErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

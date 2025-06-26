@@ -1,6 +1,6 @@
 package com.jphilips.userdetails.service.common.command;
 
-import com.jphilips.shared.util.Command;
+import com.jphiilips.shared.domain.util.Command;
 import com.jphilips.userdetails.dto.cqrs.DeleteUserDetailsCommand;
 import com.jphilips.userdetails.service.UserDetailsManager;
 import lombok.RequiredArgsConstructor;

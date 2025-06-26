@@ -5,7 +5,7 @@ import com.jphilips.auth.dto.cqrs.command.DeleteUserCommand;
 import com.jphilips.auth.dto.cqrs.command.UpdateUserCommand;
 import com.jphilips.auth.service.user.command.DeleteUserService;
 import com.jphilips.auth.service.user.command.UpdateUserService;
-import com.jphilips.shared.dto.UserResponseDto;
+import com.jphiilips.shared.domain.dto.UserResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

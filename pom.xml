@@ -24,9 +24,10 @@
 
     <modules>
         <module>services/api-gateway</module>
-        <module>shared/shared</module>
         <module>services/auth-service</module>
         <module>services/user-details-service</module>
+        <module>shared/shared-spring</module>
+        <module>shared/shared-domain</module>
     </modules>
 
 </project>
