@@ -23,10 +23,10 @@
     </properties>
 
     <modules>
-        <module>api-gateway</module>
-        <module>shared</module>
-        <module>auth-service</module>
-        <module>user-details-service</module>
+        <module>services/api-gateway</module>
+        <module>shared/shared</module>
+        <module>services/auth-service</module>
+        <module>services/user-details-service</module>
     </modules>
 
 </project>
