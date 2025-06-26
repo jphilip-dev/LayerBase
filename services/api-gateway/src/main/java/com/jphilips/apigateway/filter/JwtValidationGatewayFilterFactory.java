@@ -37,8 +37,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
 
     public JwtValidationGatewayFilterFactory(WebClient.Builder webClientBuilder,
                                              @Value("${AUTH_SERVICE_URI}") String authServiceUrl,
-                                             ObjectMapper objectMapper,
-                                             ExceptionResponseBuilder exceptionResponseBuilder) {
+                                             ObjectMapper objectMapper, ExceptionResponseBuilder exceptionResponseBuilder) {
         super(RoleBasedAccessConfig.class);
         this.objectMapper = objectMapper;
         this.exceptionResponseBuilder = exceptionResponseBuilder;
@@ -136,7 +135,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
 
     private Mono<Void> writeErrorResponse(ServerWebExchange exchange, BaseErrorCode baseErrorCode) {
 
-        ExceptionResponseDto dto = getExceptionResponseDto(exchange, baseErrorCode);
+        ExceptionResponseDto dto = buildErrorResponse(baseErrorCode, exchange.getRequest().getURI().getPath());
 
         try {
             byte[] bytes = objectMapper.writeValueAsBytes(dto);
@@ -150,10 +149,13 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
         }
     }
 
-    private ExceptionResponseDto getExceptionResponseDto(ServerWebExchange exchange, BaseErrorCode baseErrorCode) {
-        return exceptionResponseBuilder
-                .buildFrom(new AppException(baseErrorCode), exchange.getRequest().getURI().getPath()).getBody();
+    private ExceptionResponseDto buildErrorResponse(BaseErrorCode baseErrorCode, String path){
+        return  exceptionResponseBuilder.buildFrom(
+                new AppException(baseErrorCode),
+                path
+        ).getBody();
     }
 
 
 }
+
