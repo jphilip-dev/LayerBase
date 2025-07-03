@@ -28,6 +28,7 @@
         <module>services/user-details-service</module>
         <module>shared/shared-spring</module>
         <module>shared/shared-domain</module>
+        <module>services/analytics-service</module>
     </modules>
 
 </project>
