@@ -1,0 +1,5 @@
+package com.jphiilips.shared.domain.dto.kafka;
+
+public interface BasePayload {
+    Long getUserId();
+}
