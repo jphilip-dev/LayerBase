@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Define the app name used for log file naming -->
+    <springProperty name="APP_NAME" source="spring.application.name"/>
+
+    <!-- Pull in the shared logging setup -->
+    <include resource="shared-logback.xml"/>
+</configuration>

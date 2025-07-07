@@ -12,9 +12,12 @@ import com.jphiilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.util.EventPublisher;
 import com.jphilips.shared.spring.util.KafkaTopics;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticateService implements Command<AuthenticateCommand, TokenResponseDto> {
@@ -43,12 +46,18 @@ public class AuthenticateService implements Command<AuthenticateCommand, TokenRe
         // Check Account Status
         authManager.validateStatus(user);
 
+        // set MDC
+        MDC.put("userId", user.getId().toString());
+
         // Generate Token
         String token = jwtUtil.generateToken(user);
 
         // analytics
         UserLoggedInPayload payload = new UserLoggedInPayload(user.getId());
         eventPublisher.publish(EventType.USER_LOGGED_IN, payload, kafkaTopics.getAuthEvents());
+
+        // logging
+        log.info("User:{} Logged in", user.getId());
 
         // Return TokenResponseDto
         return new TokenResponseDto(token);
