@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Getter
 public class KafkaTopics {
 
-    private final String userEvents;
-    private final String authEvents;
+    private final String userEvent;
+    private final String authEvent;
 
     public KafkaTopics(
-            @Value("${app.kafka.topics.user-events}") String userEvents,
-            @Value("${app.kafka.topics.auth-events}") String authEvents
+            @Value("${app.kafka.topics.user-events}") String userEvent,
+            @Value("${app.kafka.topics.auth-events}") String authEvent
     ) {
-        this.userEvents = userEvents;
-        this.authEvents = authEvents;
+        this.userEvent = userEvent;
+        this.authEvent = authEvent;
     }
 }

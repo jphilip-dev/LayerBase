@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuhEventConsumer {
+public class AuthEventConsumer {
 
     private final KafkaTopics kafkaTopics;
     private final AuthEventHandler authEventHandler;
 
-    @KafkaListener(topics = "#{@kafkaTopics.authEvents}", groupId = "my-group")
+    @KafkaListener(topics = "#{@kafkaTopics.authEvent}", groupId = "MyGroup")
     public void handleAuthEvent(AppEvent<?> event) {
         switch (event.getType()) {
             case USER_REGISTERED -> authEventHandler.handleUserRegistered(event);

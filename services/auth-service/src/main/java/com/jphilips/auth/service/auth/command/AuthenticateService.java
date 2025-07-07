@@ -54,7 +54,7 @@ public class AuthenticateService implements Command<AuthenticateCommand, TokenRe
 
         // analytics
         UserLoggedInPayload payload = new UserLoggedInPayload(user.getId());
-        eventPublisher.publish(EventType.USER_LOGGED_IN, payload, kafkaTopics.getAuthEvents());
+        eventPublisher.publish(EventType.USER_LOGGED_IN, payload, kafkaTopics.getAuthEvent(), MDC.get("requestId"));
 
         // logging
         log.info("User:{} Logged in", user.getId());
