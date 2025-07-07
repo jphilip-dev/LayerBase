@@ -38,7 +38,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(InternalCallException.class)
     public ResponseEntity<ExceptionResponseDto> handleInternalCallExceptions(InternalCallException ex, WebRequest request) {
 
-        log.warn("[InternalCallException] from {} - code: {}",
+        log.warn("[InternalCallException] from {} - code: {} \n",
                 ex.getSourceService(),
                 ex.getExceptionResponseDto().code());
 
@@ -57,7 +57,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ExceptionResponseDto> handleAppExceptions(AppException ex, WebRequest request) {
 
-        log.warn("Handled business exception: {}", ex.getBaseErrorCode().getCode());
+        log.warn("Handled business exception: {}\n", ex.getBaseErrorCode().getCode());
 
         return exceptionResponseBuilder.buildFrom(ex, request);
 
@@ -66,7 +66,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponseDto> handleOtherExceptions(Exception ex, WebRequest request) {
 
-        log.error("Unhandled error: {}", ex.getMessage(), ex);
+        log.error("Unhandled error: {}\n", ex.getMessage(), ex);
 
         return exceptionResponseBuilder.buildFrom(new AppException(CommonErrorCode.INTERNAL_SERVER_ERROR), request);
 
