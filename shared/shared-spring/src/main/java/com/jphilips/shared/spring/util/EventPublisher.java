@@ -16,9 +16,10 @@ public class EventPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public <T extends BasePayload> void publish(EventType type, T payload, String topic) {
+    public <T extends BasePayload> void publish(EventType type, T payload, String topic, String requestId) {
+        UUID uuid = UUID.fromString(requestId);
         AppEvent<T> event = AppEvent.<T>builder()
-                .id(UUID.randomUUID())
+                .id(uuid)
                 .userId(payload.getUserId())
                 .type(type)
                 .timestamp(Instant.now())
