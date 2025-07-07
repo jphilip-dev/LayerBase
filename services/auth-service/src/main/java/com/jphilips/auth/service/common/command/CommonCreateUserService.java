@@ -31,8 +31,6 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
 
     @Override
     public UserResponseDto execute(CreateUserCommand command) {
-        // logging
-        log.info("Creating new User");
 
         // Extract Payload
         var userRequestDto = command.userRequestDto();
@@ -63,7 +61,7 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
                 .build();
 
         try {
-            log.info("Calling UserDetails Service internally");
+            log.info("Creating User Details - Internal Call");
             // Rest call using feign S2S
             var response = feignCaller.callWithErrorHandling(
                     UserDetailsClient.class.getSimpleName(),
@@ -71,15 +69,11 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
 
         } catch (AppException exception) {
 
+            log.warn("Error creating user details, reverting AuthDetails creation");
             authManager.delete(savedUser);
-            log.warn("Error creating user details, reverted AuthDetails creation");
-
             // Re throw exception
             throw exception;
         }
-
-        // logging
-        log.info("End of Creating new User");
 
         // Convert and return
         return authMapper.toDto(savedUser);

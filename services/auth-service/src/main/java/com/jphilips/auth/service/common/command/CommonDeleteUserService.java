@@ -6,8 +6,10 @@ import com.jphilips.auth.service.AuthManager;
 import com.jphiilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.config.FeignCaller;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommonDeleteUserService implements Command<DeleteUserCommand, Void> {
@@ -19,9 +21,11 @@ public class CommonDeleteUserService implements Command<DeleteUserCommand, Void>
 
     @Override
     public Void execute(DeleteUserCommand command) {
-
         // Extract Payload
         var userId = command.userId();
+
+        // logging
+        log.info("Deleting User: {}", userId);
 
         var user = authManager.validateUser(userId);
 
@@ -35,6 +39,10 @@ public class CommonDeleteUserService implements Command<DeleteUserCommand, Void>
 
         // Delete
         authManager.delete(user);
+
+        // logging
+        log.info("User: {} deleted", userId);
+        log.info("End of Deleting User");
 
         return null;
     }

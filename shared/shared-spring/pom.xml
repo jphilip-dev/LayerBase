@@ -15,6 +15,12 @@
 
     <dependencies>
 
+        <!-- Aspect Logging -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!-- Required to use @Component, @Configuration, etc. -->
         <dependency>
             <groupId>org.springframework</groupId>
