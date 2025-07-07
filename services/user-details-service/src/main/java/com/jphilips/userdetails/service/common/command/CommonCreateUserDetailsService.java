@@ -22,7 +22,7 @@ public class CommonCreateUserDetailsService implements Command<CreateUserDetails
 
         var userDetails = userDetailsMapper.toEntity(command.userDetailsRequestDto());
 
-        log.info("Creating new User Detail: {}" , userDetails.getName());
+        log.info("Creating new User Detail: {}" , userDetails.getId());
 
         userDetailsManager.save(userDetails);
 

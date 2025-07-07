@@ -1,5 +1,6 @@
 package com.jphilips.auth.service.common.command;
 
+import com.jphiilips.shared.domain.exception.custom.AppException;
 import com.jphilips.auth.config.RoleSeeder;
 import com.jphilips.auth.config.UserDetailsClient;
 import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
@@ -30,6 +31,8 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
 
     @Override
     public UserResponseDto execute(CreateUserCommand command) {
+        // logging
+        log.info("Creating new User");
 
         // Extract Payload
         var userRequestDto = command.userRequestDto();
@@ -47,8 +50,9 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
         // Save user, manager logs the save
         var savedUser = authManager.save(newUser);
 
-        log.info("Created new User: {} with id: {}", savedUser.getEmail(), savedUser.getId());
-        log.info("MDC Request ID {}",MDC.get("requestId"));
+        // logging
+        MDC.put("userId", savedUser.getId().toString());
+        log.info("New User Registered: {} with id: {}", savedUser.getEmail(), savedUser.getId());
 
         // Create UserDetails Request Dto
         var userDetailsRequestDto = UserDetailsRequestDto.builder()
@@ -58,10 +62,24 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
                 .birthDate(userRequestDto.getBirthDate())
                 .build();
 
-        // Rest call using feign S2S
-        var response = feignCaller.callWithErrorHandling(
-                UserDetailsClient.class.getSimpleName(),
-                () -> userDetailsClient.createUserDetails(userDetailsRequestDto));
+        try {
+            log.info("Calling UserDetails Service internally");
+            // Rest call using feign S2S
+            var response = feignCaller.callWithErrorHandling(
+                    UserDetailsClient.class.getSimpleName(),
+                    () -> userDetailsClient.createUserDetails(userDetailsRequestDto));
+
+        } catch (AppException exception) {
+
+            authManager.delete(savedUser);
+            log.warn("Error creating user details, reverted AuthDetails creation");
+
+            // Re throw exception
+            throw exception;
+        }
+
+        // logging
+        log.info("End of Creating new User");
 
         // Convert and return
         return authMapper.toDto(savedUser);

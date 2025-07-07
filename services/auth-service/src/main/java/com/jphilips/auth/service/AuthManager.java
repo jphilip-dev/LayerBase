@@ -8,10 +8,12 @@ import com.jphilips.auth.exceptions.custom.UserInactiveException;
 import com.jphilips.auth.exceptions.custom.UserNotFoundException;
 import com.jphilips.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthManager {
@@ -19,10 +21,12 @@ public class AuthManager {
     private final UserRepository userRepository;
 
     public User save(User user) {
+        log.info("Saving User - ID: {}, Email: {}", user.getId() == null ? "NEW User" : user.getId(), user.getEmail());
         return userRepository.save(user);
     }
 
     public void delete(User user){
+        log.info("Deleting User - ID: {}, Email: {}", user.getId(), user.getEmail());
         userRepository.delete(user);
     }
 
