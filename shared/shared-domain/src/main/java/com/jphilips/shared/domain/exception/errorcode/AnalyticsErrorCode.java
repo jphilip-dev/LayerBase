@@ -1,11 +1,12 @@
-package com.jphiilips.shared.domain.exception.errorcode;
+package com.jphilips.shared.domain.exception.errorcode;
 
 import lombok.Getter;
 
 @Getter
 public enum AnalyticsErrorCode implements BaseErrorCode {
 
-    NOT_FOUND(404);
+    NOT_FOUND(404),
+    OBJECT_MISMATCH(400);
 
     private final int statusCode;
     private final String code;

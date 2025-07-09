@@ -1,23 +1,30 @@
 package com.jphilips.analytics.entity;
 
+import com.jphilips.shared.domain.enums.EventType;
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
 @Table(name = "event_logs")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class EventLog {
     @Id
     private UUID eventId;
 
-    @Column(nullable = false)
-    private String eventType;
+    @Enumerated(EnumType.STRING)
+    private EventType eventType;
 
     @Column(nullable = false)
     private Long userId;
 
     @Column(nullable = false)
-    private LocalDateTime timestamp;
+    private Instant timestamp;
 }
 
