@@ -1,6 +1,6 @@
 package com.jphilips.shared.spring.logging;
 
-import com.jphiilips.shared.domain.exception.custom.BaseException;
+import com.jphilips.shared.domain.exception.custom.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -1,8 +1,8 @@
 package com.jphilips.auth.exceptions;
 
-import com.jphiilips.shared.domain.dto.ExceptionResponseDto;
-import com.jphiilips.shared.domain.exception.custom.AppException;
-import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
+import com.jphilips.shared.domain.dto.ExceptionResponseDto;
+import com.jphilips.shared.domain.exception.custom.AppException;
+import com.jphilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphilips.shared.spring.exception.ExceptionResponseBuilder;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

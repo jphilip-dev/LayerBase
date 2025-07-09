@@ -1,6 +1,6 @@
 package com.jphilips.auth.service;
 
-import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
+import com.jphilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphilips.auth.entity.User;
 import com.jphilips.auth.exceptions.custom.EmailAlreadyExistException;
 import com.jphilips.auth.exceptions.custom.OwnerMismatchException;

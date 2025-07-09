@@ -2,12 +2,12 @@ package com.jphilips.apigateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jphiilips.shared.domain.exception.custom.AppException;
-import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
-import com.jphiilips.shared.domain.exception.errorcode.BaseErrorCode;
+import com.jphilips.shared.domain.exception.custom.AppException;
+import com.jphilips.shared.domain.exception.errorcode.AuthErrorCode;
+import com.jphilips.shared.domain.exception.errorcode.BaseErrorCode;
 import com.jphilips.apigateway.config.RoleBasedAccessConfig;
-import com.jphiilips.shared.domain.dto.ExceptionResponseDto;
-import com.jphiilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.domain.dto.ExceptionResponseDto;
+import com.jphilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.shared.spring.exception.ExceptionResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

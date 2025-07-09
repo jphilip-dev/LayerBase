@@ -1,13 +1,13 @@
 package com.jphilips.auth.service.auth.command;
 
-import com.jphiilips.shared.domain.exception.errorcode.AuthErrorCode;
+import com.jphilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphilips.auth.dto.cqrs.command.ValidateTokenCommand;
 import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.exceptions.custom.MissingJwtException;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.util.JwtUtil;
-import com.jphiilips.shared.domain.dto.UserResponseDto;
-import com.jphiilips.shared.domain.util.Command;
+import com.jphilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.domain.util.Command;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;

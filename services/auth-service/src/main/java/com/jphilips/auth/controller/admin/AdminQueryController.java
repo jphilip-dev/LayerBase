@@ -6,7 +6,7 @@ import com.jphilips.auth.dto.cqrs.query.GetUserByIdQuery;
 import com.jphilips.auth.service.common.query.CommonGetAllUsersService;
 import com.jphilips.auth.service.common.query.CommonGetUserByEmailService;
 import com.jphilips.auth.service.common.query.CommonGetUserByIdService;
-import com.jphiilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.domain.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

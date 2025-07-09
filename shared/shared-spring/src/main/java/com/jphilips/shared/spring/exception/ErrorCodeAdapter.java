@@ -1,6 +1,6 @@
 package com.jphilips.shared.spring.exception;
 
-import com.jphiilips.shared.domain.exception.errorcode.BaseErrorCode;
+import com.jphilips.shared.domain.exception.errorcode.BaseErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 

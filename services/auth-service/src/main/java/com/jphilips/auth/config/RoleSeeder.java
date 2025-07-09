@@ -2,7 +2,7 @@ package com.jphilips.auth.config;
 
 import com.jphilips.auth.entity.Role;
 import com.jphilips.auth.repository.RoleRepository;
-import com.jphiilips.shared.domain.enums.EnumRole;
+import com.jphilips.shared.domain.enums.EnumRole;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

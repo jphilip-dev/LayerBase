@@ -4,7 +4,7 @@ import com.jphilips.auth.dto.cqrs.query.GetUserByEmailQuery;
 import com.jphilips.auth.dto.cqrs.query.GetUserByIdQuery;
 import com.jphilips.auth.service.user.query.GetUserByEmailService;
 import com.jphilips.auth.service.user.query.GetUserByIdService;
-import com.jphiilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.domain.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
