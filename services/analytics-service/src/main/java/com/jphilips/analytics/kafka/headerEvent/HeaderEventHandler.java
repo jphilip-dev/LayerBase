@@ -3,7 +3,7 @@ package com.jphilips.analytics.kafka.headerEvent;
 import com.jphilips.shared.domain.dto.kafka.AppEvent;
 import com.jphilips.analytics.dto.cqrs.command.CreateEventLogCommand;
 import com.jphilips.analytics.dto.mapper.EventLogMapper;
-import com.jphilips.analytics.service.command.CreateEventLogService;
+import com.jphilips.analytics.service.command.CreateHeaderEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HeaderEventHandler {
 
-    private final CreateEventLogService createEventLogService;
+    private final CreateHeaderEventLogService createHeaderEventLogService;
     private final EventLogMapper eventLogMapper;
 
     public void handleCreate(AppEvent<?> rawEvent) {
@@ -22,6 +22,6 @@ public class HeaderEventHandler {
                 .eventLogRequestDto(dto)
                 .build();
 
-        createEventLogService.execute(command);
+        createHeaderEventLogService.execute(command);
     }
 }

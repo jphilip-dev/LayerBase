@@ -1,5 +1,7 @@
 package com.jphilips.auth.service.common.command;
 
+import com.jphilips.shared.domain.dto.kafka.payload.UserRegisteredPayload;
+import com.jphilips.shared.domain.enums.EventType;
 import com.jphilips.shared.domain.exception.custom.AppException;
 import com.jphilips.auth.config.RoleSeeder;
 import com.jphilips.auth.config.UserDetailsClient;
@@ -10,6 +12,8 @@ import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.config.FeignCaller;
+import com.jphilips.shared.spring.kafka.service.EventPublisher;
+import com.jphilips.shared.spring.kafka.util.KafkaTopics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -24,6 +28,8 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
     private final AuthMapper authMapper;
     private final AuthManager authManager;
     private final RoleSeeder roleSeeder;
+    private final EventPublisher eventPublisher;
+    private final KafkaTopics kafkaTopics;
 
     private final FeignCaller feignCaller;
     private final UserDetailsClient userDetailsClient;
@@ -74,6 +80,15 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
             // Re throw exception
             throw exception;
         }
+
+        // analytics
+        var payload = UserRegisteredPayload.builder()
+                .userId(savedUser.getId())
+                .email(savedUser.getEmail())
+                .name(userDetailsRequestDto.getName())
+                .build();
+
+        eventPublisher.publish(EventType.USER_REGISTERED, payload, kafkaTopics.getAuthEvent(), MDC.get("requestId"));
 
         // Convert and return
         return authMapper.toDto(savedUser);
