@@ -1,7 +1,7 @@
 package com.jphilips.analytics.service;
 
 import com.jphilips.shared.domain.exception.errorcode.AnalyticsErrorCode;
-import com.jphilips.analytics.entity.EventLog;
+import com.jphilips.analytics.entity.HeaderEventLog;
 import com.jphilips.analytics.exception.custom.EventLogNotFoundException;
 import com.jphilips.analytics.repository.EventLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,9 @@ public class EventLogManager  {
 
     private final EventLogRepository eventLogRepository;
 
-    public EventLog save(EventLog eventLog){
-        log.info("Saving Event Log: Event Id - {}, Event Type - {}", eventLog.getEventId(), eventLog.getEventType());
-        return eventLogRepository.save(eventLog);
+    public HeaderEventLog save(HeaderEventLog headerEventLog){
+        log.info("Saving Event Log: Event Id - {}, Event Type - {}", headerEventLog.getEventId(), headerEventLog.getEventType());
+        return eventLogRepository.save(headerEventLog);
     }
 
     public void delete(UUID uuid){
@@ -28,7 +28,7 @@ public class EventLogManager  {
         eventLogRepository.delete(eventLog);
     }
 
-    public EventLog validateEventLog(UUID uuid){
+    public HeaderEventLog validateEventLog(UUID uuid){
         return eventLogRepository.findById(uuid)
                 .orElseThrow(() -> new EventLogNotFoundException(AnalyticsErrorCode.NOT_FOUND));
     }

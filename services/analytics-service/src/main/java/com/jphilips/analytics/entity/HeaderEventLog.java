@@ -8,13 +8,13 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "event_logs")
+@Table(name = "header_event_logs")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class EventLog {
+public class HeaderEventLog {
     @Id
     private UUID eventId;
 

@@ -2,13 +2,13 @@ package com.jphilips.analytics.dto.mapper;
 
 import com.jphilips.shared.domain.dto.kafka.AppEvent;
 import com.jphilips.analytics.dto.EventLogRequestDto;
-import com.jphilips.analytics.entity.EventLog;
+import com.jphilips.analytics.entity.HeaderEventLog;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EventLogMapper {
-    public EventLog toEntity(EventLogRequestDto dto){
-        return EventLog.builder()
+    public HeaderEventLog toEntity(EventLogRequestDto dto){
+        return HeaderEventLog.builder()
                 .eventId(dto.getEventId())
                 .userId(dto.getUserId())
                 .eventType(dto.getEventType())
