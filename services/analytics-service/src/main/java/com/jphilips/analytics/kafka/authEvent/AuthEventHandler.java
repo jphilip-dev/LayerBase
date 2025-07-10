@@ -1,5 +1,8 @@
 package com.jphilips.analytics.kafka.authEvent;
 
+import com.jphilips.analytics.dto.RegisteredEventLogRequestDto;
+import com.jphilips.analytics.dto.cqrs.command.CreateRegisteredEventLogCommand;
+import com.jphilips.analytics.service.command.CreateRegisteredEventLogService;
 import com.jphilips.shared.domain.dto.kafka.AppEvent;
 import com.jphilips.shared.domain.dto.kafka.payload.UserLoggedInPayload;
 import com.jphilips.shared.domain.dto.kafka.payload.UserRegisteredPayload;
@@ -17,6 +20,8 @@ public class AuthEventHandler {
     private final ObjectMapperHandler objectMapperHandler;
     private final HeaderEventHandler headerEventHandler;
 
+    private final CreateRegisteredEventLogService createRegisteredEventLogService;
+
     public void handleUserRegistered(AppEvent<?> rawEvent) {
 
         headerEventHandler.handleCreate(rawEvent);
@@ -24,7 +29,20 @@ public class AuthEventHandler {
         UserRegisteredPayload payload = objectMapperHandler.convert(rawEvent.getPayload(), UserRegisteredPayload.class);
 
         log.info("handling payload");
+
         // extract and save payload to its own table
+        var dto = RegisteredEventLogRequestDto.builder()
+                .eventId(rawEvent.getId())
+                .userId(payload.getUserId())
+                .email(payload.getEmail())
+                .name(payload.getName())
+                .build();
+
+        var command = CreateRegisteredEventLogCommand.builder()
+                .registeredEventLogRequestDto(dto)
+                .build();
+
+        createRegisteredEventLogService.execute(command);
 
     }
 

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class EventLogRequestDto {
+public class HeaderEventLogRequestDto {
 
     @NotNull
     private UUID eventId;
