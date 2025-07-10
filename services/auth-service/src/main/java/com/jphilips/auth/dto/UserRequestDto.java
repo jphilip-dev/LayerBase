@@ -2,7 +2,7 @@ package com.jphilips.auth.dto;
 
 
 import com.jphilips.auth.validator.UniqueEmail;
-import com.jphiilips.shared.domain.validator.groups.OnCreate;
+import com.jphilips.shared.domain.validator.groups.OnCreate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

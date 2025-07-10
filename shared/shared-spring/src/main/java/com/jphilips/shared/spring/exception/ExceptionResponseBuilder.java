@@ -1,8 +1,8 @@
 package com.jphilips.shared.spring.exception;
 
-import com.jphiilips.shared.domain.dto.ExceptionResponseDto;
-import com.jphiilips.shared.domain.exception.custom.BaseException;
-import com.jphiilips.shared.domain.exception.util.ApiError;
+import com.jphilips.shared.domain.dto.ExceptionResponseDto;
+import com.jphilips.shared.domain.exception.custom.BaseException;
+import com.jphilips.shared.domain.exception.util.ApiError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

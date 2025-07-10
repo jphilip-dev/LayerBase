@@ -2,7 +2,7 @@
 
     <!-- Shared log pattern -->
     <property name="LOG_PATTERN"
-              value="[${APP_NAME}] %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [req:%X{requestId}] [user:%X{userId}] [%thread] %logger{36}:%line : %msg%n"/>
+              value="[${APP_NAME}] %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [req:%X{requestId}] [user:%X{userId}] [%thread] %logger{36}:%line : %X{indent}%msg%n"/>
 
     <!-- Console appender -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

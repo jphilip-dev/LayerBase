@@ -3,7 +3,7 @@ package com.jphilips.auth.service.common.command;
 import com.jphilips.auth.config.UserDetailsClient;
 import com.jphilips.auth.dto.cqrs.command.DeleteUserCommand;
 import com.jphilips.auth.service.AuthManager;
-import com.jphiilips.shared.domain.util.Command;
+import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.config.FeignCaller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,12 +2,12 @@ package com.jphilips.auth.service.common.command;
 
 import com.jphilips.auth.config.UserDetailsClient;
 import com.jphilips.auth.entity.User;
-import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
-import com.jphiilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.domain.dto.UserDetailsRequestDto;
+import com.jphilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.auth.dto.cqrs.command.UpdateUserCommand;
 import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.service.AuthManager;
-import com.jphiilips.shared.domain.util.Command;
+import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.config.FeignCaller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

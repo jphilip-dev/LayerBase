@@ -1,10 +1,10 @@
 package com.jphilips.shared.spring.exception;
 
-import com.jphiilips.shared.domain.exception.errorcode.CommonErrorCode;
-import com.jphiilips.shared.domain.exception.custom.AppException;
-import com.jphiilips.shared.domain.exception.custom.InternalCallException;
-import com.jphiilips.shared.domain.dto.ExceptionResponseDto;
-import com.jphiilips.shared.domain.exception.util.ApiError;
+import com.jphilips.shared.domain.exception.errorcode.CommonErrorCode;
+import com.jphilips.shared.domain.exception.custom.AppException;
+import com.jphilips.shared.domain.exception.custom.InternalCallException;
+import com.jphilips.shared.domain.dto.ExceptionResponseDto;
+import com.jphilips.shared.domain.exception.util.ApiError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

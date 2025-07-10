@@ -1,7 +1,7 @@
 package com.jphilips.auth.config;
 
-import com.jphiilips.shared.domain.dto.UserDetailsRequestDto;
-import com.jphiilips.shared.domain.dto.UserDetailsResponseDto;
+import com.jphilips.shared.domain.dto.UserDetailsRequestDto;
+import com.jphilips.shared.domain.dto.UserDetailsResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

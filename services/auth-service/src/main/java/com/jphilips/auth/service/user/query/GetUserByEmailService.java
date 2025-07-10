@@ -3,8 +3,8 @@ package com.jphilips.auth.service.user.query;
 import com.jphilips.auth.dto.cqrs.query.GetUserByEmailQuery;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.service.common.query.CommonGetUserByEmailService;
-import com.jphiilips.shared.domain.dto.UserResponseDto;
-import com.jphiilips.shared.domain.util.Query;
+import com.jphilips.shared.domain.dto.UserResponseDto;
+import com.jphilips.shared.domain.util.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
