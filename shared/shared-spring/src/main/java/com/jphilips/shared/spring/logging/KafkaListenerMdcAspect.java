@@ -1,4 +1,4 @@
-package com.jphilips.analytics.logging;
+package com.jphilips.shared.spring.logging;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,12 +9,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.MDC;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "mdc.logging.KafkaListener", havingValue = "true")
 public class KafkaListenerMdcAspect {
 
     private final ObjectMapper objectMapper;
