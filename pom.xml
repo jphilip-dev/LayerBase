@@ -29,6 +29,7 @@
         <module>shared/shared-spring</module>
         <module>shared/shared-domain</module>
         <module>services/analytics-service</module>
+        <module>services/email-service</module>
     </modules>
 
 </project>
