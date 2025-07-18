@@ -6,6 +6,8 @@ import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.service.common.command.CommonUpdateUserService;
 import com.jphilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.shared.domain.util.Command;
+import com.jphilips.shared.spring.redis.service.RedisHelper;
+import com.jphilips.shared.spring.redis.util.CacheKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ public class AdminUpdateUserService implements Command<UpdateUserCommand, UserRe
     private final AuthManager authManager;
     private final RoleSeeder roleSeeder;
 
+    private final RedisHelper redisHelper;
+
     @Override
     public UserResponseDto execute(UpdateUserCommand command) {
 
@@ -24,6 +28,8 @@ public class AdminUpdateUserService implements Command<UpdateUserCommand, UserRe
 
         user.setIsActive(command.isActive());
         user.addRole(roleSeeder.getAdminRole());
+
+        redisHelper.evictByTag(CacheKeys.Auth.AUTH_TOKEN_TAG + command.userId());
 
         // exec common
         return  commonUpdateUserService.execute(command, user);

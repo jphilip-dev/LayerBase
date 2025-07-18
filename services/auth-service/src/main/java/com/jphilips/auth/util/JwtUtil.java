@@ -63,4 +63,8 @@ public class JwtUtil {
     public Long extractUserId(String token){
         return validateToken(token).get("id", Long.class);
     }
+
+    public long getJwtExpirationMinutes() {
+        return expirationMinutes + (expirationHours * 60L);
+    }
 }

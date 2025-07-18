@@ -1,16 +1,27 @@
 package com.jphilips.shared.spring.util;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public record PagedResponse<T>(List<T> content, int page, int size, long totalElements, int totalPages, boolean last) {
+@Data
+@NoArgsConstructor
+public class PagedResponse<T>{
+    private List<T> content;
+    private int page;
+    private int size;
+    private long totalElements;
+    private int totalPages;
+    private boolean last;
+
     public PagedResponse(List<T> content, Page<?> page){
-        this(content,
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isLast());
+        this.content = content;
+        this.page = page.getNumber();
+        this.size = page.getSize();
+        this.totalElements = page.getTotalElements();
+        this.totalPages = page.getTotalPages();
+        this.last = page.isLast();
     }
 }
