@@ -1,0 +1,6 @@
+spring:
+  config:
+    import:
+      - classpath:config/application-common-${spring.profiles.active:default}.properties
+      - classpath:config/email-service/application-email-${spring.profiles.active:default}.properties
+      - classpath:config/email-service/private.properties

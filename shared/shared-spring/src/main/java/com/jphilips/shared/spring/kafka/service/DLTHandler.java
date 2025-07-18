@@ -17,7 +17,7 @@ public class DLTHandler {
 
     private final ObjectMapper objectMapper;
 
-    public void handle(byte[] data, String originalTopic, String error) {
+    public String handle(byte[] data, String originalTopic, String error) {
 
         String raw = new String(data, StandardCharsets.UTF_8);
         log.warn("Received DLT message from [{}],  Error: [{}]", originalTopic, error);
@@ -25,6 +25,7 @@ public class DLTHandler {
         try {
             AppEvent<?> parsed = objectMapper.readValue(data, AppEvent.class);
             log.info("Parsed AppEvent from DLT Directly: {}", parsed);
+            return parsed.toString();
         } catch (Exception e1) {
             log.error("Couldn't parse AppEvent directly");
             try {
@@ -38,12 +39,14 @@ public class DLTHandler {
                 String decodedJson = new String(decoded, StandardCharsets.UTF_8);
 
                 log.info("Decoded raw json: \n{}", decodedJson);
-
+                return decodedJson;
             } catch (Exception e2) {
                 log.error("Couldn't parse raw json : {}", e2.getMessage());
             }
 
         }
+
+        return null;
     }
 }
 
