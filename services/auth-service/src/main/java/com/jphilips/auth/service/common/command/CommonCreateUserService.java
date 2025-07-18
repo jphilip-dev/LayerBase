@@ -10,13 +10,17 @@ import com.jphilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.auth.dto.cqrs.command.CreateUserCommand;
 import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.service.AuthManager;
+import com.jphilips.shared.domain.exception.custom.InternalCallException;
 import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.config.FeignCaller;
 import com.jphilips.shared.spring.kafka.service.EventPublisher;
 import com.jphilips.shared.spring.kafka.util.KafkaTopics;
+import com.jphilips.shared.spring.redis.service.RedisHelper;
+import com.jphilips.shared.spring.redis.util.CacheKeys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +35,14 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
     private final EventPublisher eventPublisher;
     private final KafkaTopics kafkaTopics;
 
+    private final RedisHelper redisHelper;
+
     private final FeignCaller feignCaller;
     private final UserDetailsClient userDetailsClient;
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @CachePut(value = CacheKeys.Auth.USER_BY_ID, key = "#result.id")
     public UserResponseDto execute(CreateUserCommand command) {
 
         // Extract Payload
@@ -73,7 +80,7 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
                     UserDetailsClient.class.getSimpleName(),
                     () -> userDetailsClient.createUserDetails(userDetailsRequestDto));
 
-        } catch (AppException exception) {
+        } catch (AppException | InternalCallException exception) {
 
             log.warn("Error creating user details, reverting AuthDetails creation");
             authManager.delete(savedUser);
@@ -89,6 +96,10 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
                 .build();
 
         eventPublisher.publish(EventType.USER_REGISTERED, payload, kafkaTopics.getAuthEvent(), MDC.get("requestId"));
+
+        // add to user by mail cache then clear page cache
+        redisHelper.put(CacheKeys.Auth.USER_BY_EMAIL + savedUser.getEmail(), savedUser);
+        redisHelper.evictByTag(CacheKeys.Auth.USER_PAGE_TAG);
 
         // Convert and return
         return authMapper.toDto(savedUser);

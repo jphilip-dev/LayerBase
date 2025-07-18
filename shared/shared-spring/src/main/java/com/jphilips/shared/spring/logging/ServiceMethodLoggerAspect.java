@@ -1,6 +1,5 @@
 package com.jphilips.shared.spring.logging;
 
-import com.jphilips.shared.domain.exception.custom.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -45,20 +44,6 @@ public class ServiceMethodLoggerAspect {
                     duration);
 
             return result;
-
-        } catch (Throwable ex) {
-            String message;
-            if (ex instanceof BaseException baseException) {
-                message = baseException.getBaseErrorCode().getCode();
-            } else {
-                message = ex.getMessage();
-            }
-
-            log.error(">EXCEPTION: {}.{}(): {}",
-                    joinPoint.getSignature().getDeclaringTypeName(),
-                    joinPoint.getSignature().getName(),
-                    message);
-            throw ex;
 
         } finally {
             // Decrease level or remove if root

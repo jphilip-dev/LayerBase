@@ -9,8 +9,11 @@ import com.jphilips.auth.dto.mapper.AuthMapper;
 import com.jphilips.auth.service.AuthManager;
 import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.config.FeignCaller;
+import com.jphilips.shared.spring.redis.service.RedisHelper;
+import com.jphilips.shared.spring.redis.util.CacheKeys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,8 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
     private final AuthManager authManager;
     private final FeignCaller feignCaller;
 
+    private final RedisHelper redisHelper;
+
     private final UserDetailsClient userDetailsClient;
     private final PasswordEncoder passwordEncoder;
 
@@ -33,6 +38,7 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
         return execute(command, user);
     }
 
+    @CachePut(value = CacheKeys.Auth.USER_BY_ID, key = "#result.id")
     public UserResponseDto execute(UpdateUserCommand command, User user) {
 
         // Extract payload
@@ -41,6 +47,11 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
         // Check if email changed
         if (!user.getEmail().equalsIgnoreCase(userRequestDto.getEmail())) {
             authManager.checkEmailAvailability(userRequestDto.getEmail());
+
+            // remove cache
+            redisHelper.delete(CacheKeys.Auth.USER_BY_EMAIL + user.getEmail());
+
+
             user.setEmail(userRequestDto.getEmail());
         }
 
@@ -62,6 +73,10 @@ public class CommonUpdateUserService implements Command<UpdateUserCommand, UserR
 
         // Save
         authManager.save(user);
+
+        // add to user by mail cache, delete page cache
+        redisHelper.put(CacheKeys.Auth.USER_BY_EMAIL + user.getEmail(), user);
+        redisHelper.evictByTag(CacheKeys.Auth.USER_PAGE_TAG);
 
         // Convert and return
         return authMapper.toDto(user);

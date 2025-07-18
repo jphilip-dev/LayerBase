@@ -67,6 +67,7 @@ public class BaseExceptionHandler {
     public ResponseEntity<ExceptionResponseDto> handleOtherExceptions(Exception ex, WebRequest request) {
 
         log.error("Unhandled error: {}\n", ex.getMessage(), ex);
+        log.error("Cause: ", ex.getCause());
 
         return exceptionResponseBuilder.buildFrom(new AppException(CommonErrorCode.INTERNAL_SERVER_ERROR), request);
 
