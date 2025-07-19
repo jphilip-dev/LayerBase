@@ -57,4 +57,9 @@ public class AuthManager {
             throw new UserInactiveException(AuthErrorCode.USER_INACTIVE);
         }
     }
+
+    public void activateUserStatus(User user){
+       user.setIsActive(true);
+       save(user);
+    }
 }
