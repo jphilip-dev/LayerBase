@@ -23,13 +23,17 @@
     </properties>
 
     <modules>
-        <module>services/api-gateway</module>
-        <module>services/auth-service</module>
-        <module>services/user-details-service</module>
+        <!--Service modules-->
+        <module>services/1-api-gateway</module>
+        <module>services/2-auth-service</module>
+        <module>services/3-user-details-service</module>
+        <module>services/4-analytics-service</module>
+        <module>services/5-email-service</module>
+
+        <!--Shared modules-->
         <module>shared/shared-spring</module>
         <module>shared/shared-domain</module>
-        <module>services/analytics-service</module>
-        <module>services/email-service</module>
+
     </modules>
 
 </project>
