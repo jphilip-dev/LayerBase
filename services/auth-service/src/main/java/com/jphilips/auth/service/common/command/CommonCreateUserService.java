@@ -1,5 +1,7 @@
 package com.jphilips.auth.service.common.command;
 
+import com.jphilips.auth.dto.cqrs.command.RequestOtpCommand;
+import com.jphilips.auth.service.auth.command.RequestOtpService;
 import com.jphilips.shared.domain.dto.kafka.payload.UserRegisteredPayload;
 import com.jphilips.shared.domain.enums.EventType;
 import com.jphilips.shared.domain.exception.custom.AppException;
@@ -36,6 +38,7 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
     private final KafkaTopics kafkaTopics;
 
     private final RedisHelper redisHelper;
+    private final RequestOtpService requestOtpService;
 
     private final FeignCaller feignCaller;
     private final UserDetailsClient userDetailsClient;
@@ -53,7 +56,7 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
         newUser.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
 
         // Set Status
-        newUser.setIsActive(true);
+        newUser.setIsActive(false);
 
         // Add Role
         newUser.addRole(roleSeeder.getDefaultRole());
@@ -88,6 +91,9 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
             throw exception;
         }
 
+        // Send otp for activation
+        requestOtpService.execute(new RequestOtpCommand(savedUser.getEmail()));
+
         // analytics
         var payload = UserRegisteredPayload.builder()
                 .userId(savedUser.getId())
@@ -100,6 +106,7 @@ public class CommonCreateUserService implements Command<CreateUserCommand, UserR
         // add to user by mail cache then clear page cache
         redisHelper.put(CacheKeys.Auth.USER_BY_EMAIL + savedUser.getEmail(), savedUser);
         redisHelper.evictByTag(CacheKeys.Auth.USER_PAGE_TAG);
+
 
         // Convert and return
         return authMapper.toDto(savedUser);

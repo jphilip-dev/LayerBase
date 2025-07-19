@@ -3,10 +3,10 @@ package com.jphilips.auth.controller.auth;
 import com.jphilips.auth.dto.LoginRequestDto;
 import com.jphilips.auth.dto.TokenResponseDto;
 import com.jphilips.auth.dto.UserRequestDto;
-import com.jphilips.auth.dto.cqrs.command.AuthenticateCommand;
-import com.jphilips.auth.dto.cqrs.command.CreateUserCommand;
-import com.jphilips.auth.dto.cqrs.command.ValidateTokenCommand;
+import com.jphilips.auth.dto.cqrs.command.*;
+import com.jphilips.auth.service.auth.command.ActivationService;
 import com.jphilips.auth.service.auth.command.AuthenticateService;
+import com.jphilips.auth.service.auth.command.RequestOtpService;
 import com.jphilips.auth.service.auth.command.ValidateTokenService;
 import com.jphilips.auth.service.common.command.CommonCreateUserService;
 import com.jphilips.shared.domain.dto.UserResponseDto;
@@ -27,6 +27,9 @@ public class AuthController {
     private final CommonCreateUserService commonCreateUserService;
     private final AuthenticateService authenticateService;
     private final ValidateTokenService validateTokenService;
+
+    private final ActivationService activationService;
+    private final RequestOtpService requestOtpService;
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> register(
@@ -65,6 +68,34 @@ public class AuthController {
         var response = validateTokenService.execute(command);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/request-otp/{email}")
+    public ResponseEntity<UserResponseDto> requestOtp(@PathVariable String email) {
+
+        var command = RequestOtpCommand.builder()
+                .toEmail(email)
+                .build();
+
+        var response = requestOtpService.execute(command);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/activate/{email}")
+    public ResponseEntity<UserResponseDto> activateAccount(
+            @PathVariable String email,
+            @RequestParam String otp
+    ) {
+
+        var command = ActivationCommand.builder()
+                .email(email)
+                .otp(otp)
+                .build();
+
+        var response = activationService.execute(command);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
 }

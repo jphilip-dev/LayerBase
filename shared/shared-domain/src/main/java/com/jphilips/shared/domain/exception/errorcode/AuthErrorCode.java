@@ -8,6 +8,8 @@ public enum AuthErrorCode implements BaseErrorCode {
     FORBIDDEN(403),
     UNAUTHORIZED(401),
 
+    OTP_MISMATCH(403),
+
     USER_NOT_FOUND(404),
     EMAIL_EXISTS(400),
     OWNERSHIP_MISMATCH(403),

@@ -7,6 +7,7 @@ public class CacheKeys {
         public static final String AUTH_TOKEN = "auth:token:";
         public static final String AUTH_TOKEN_TAG = "auth:token-tag:";
         public static final String AUTH_TOKEN_BY_USER_ID = "auth:token-by-userId:";
+        public static final String AUTH_OTP_BY_USER_ID= "auth:otp-by-userId:";
 
         public static final String USER_BY_EMAIL = "auth:user-by-email:";
         public static final String USER_BY_ID = "auth:user-by-id:";
