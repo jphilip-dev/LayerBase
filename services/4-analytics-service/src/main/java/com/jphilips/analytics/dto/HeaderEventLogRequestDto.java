@@ -1,7 +1,7 @@
 package com.jphilips.analytics.dto;
 
 
-import com.jphilips.shared.domain.enums.EventType;
+import com.jphilips.shared.spring.kafka.enums.EventType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;

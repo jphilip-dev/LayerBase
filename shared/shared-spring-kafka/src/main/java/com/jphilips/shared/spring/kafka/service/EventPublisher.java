@@ -1,8 +1,8 @@
 package com.jphilips.shared.spring.kafka.service;
 
-import com.jphilips.shared.domain.dto.kafka.AppEvent;
-import com.jphilips.shared.domain.dto.kafka.BasePayload;
-import com.jphilips.shared.domain.enums.EventType;
+import com.jphilips.shared.spring.kafka.dto.AppEvent;
+import com.jphilips.shared.spring.kafka.dto.BasePayload;
+import com.jphilips.shared.spring.kafka.enums.EventType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

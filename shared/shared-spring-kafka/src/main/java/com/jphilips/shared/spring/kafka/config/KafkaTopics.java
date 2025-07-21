@@ -1,4 +1,4 @@
-package com.jphilips.shared.spring.kafka.util;
+package com.jphilips.shared.spring.kafka.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

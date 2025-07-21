@@ -1,4 +1,4 @@
-package com.jphilips.shared.domain.enums;
+package com.jphilips.shared.spring.kafka.enums;
 
 public enum EventType {
     USER_REGISTERED,

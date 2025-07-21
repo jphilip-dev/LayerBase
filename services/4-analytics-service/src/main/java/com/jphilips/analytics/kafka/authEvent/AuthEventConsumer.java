@@ -1,6 +1,6 @@
 package com.jphilips.analytics.kafka.authEvent;
 
-import com.jphilips.shared.domain.dto.kafka.AppEvent;
+import com.jphilips.shared.spring.kafka.dto.AppEvent;
 import com.jphilips.shared.spring.kafka.service.DLTHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

@@ -1,7 +1,7 @@
 package com.jphilips.auth.service.auth.command;
 
-import com.jphilips.shared.domain.dto.kafka.payload.UserLoggedInPayload;
-import com.jphilips.shared.domain.enums.EventType;
+import com.jphilips.shared.spring.kafka.dto.payload.UserLoggedInPayload;
+import com.jphilips.shared.spring.kafka.enums.EventType;
 import com.jphilips.shared.domain.exception.errorcode.AuthErrorCode;
 import com.jphilips.auth.dto.TokenResponseDto;
 import com.jphilips.auth.dto.cqrs.command.AuthenticateCommand;
@@ -10,7 +10,7 @@ import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.util.JwtUtil;
 import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.spring.kafka.service.EventPublisher;
-import com.jphilips.shared.spring.kafka.util.KafkaTopics;
+import com.jphilips.shared.spring.kafka.config.KafkaTopics;
 import com.jphilips.shared.spring.redis.constant.CacheKeys;
 import com.jphilips.shared.spring.redis.service.RedisHelper;
 import lombok.RequiredArgsConstructor;

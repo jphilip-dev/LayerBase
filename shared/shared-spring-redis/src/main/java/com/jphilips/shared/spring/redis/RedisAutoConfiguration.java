@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("com.jphilips.shared.spring.redis")
-public class SharedAutoConfiguration {
+public class RedisAutoConfiguration  {
 }
