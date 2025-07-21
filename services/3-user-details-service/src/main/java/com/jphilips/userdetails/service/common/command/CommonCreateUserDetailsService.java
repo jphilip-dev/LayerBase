@@ -2,8 +2,8 @@ package com.jphilips.userdetails.service.common.command;
 
 import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.domain.dto.UserDetailsResponseDto;
+import com.jphilips.shared.spring.redis.constant.CacheKeys;
 import com.jphilips.shared.spring.redis.service.RedisHelper;
-import com.jphilips.shared.spring.redis.util.CacheKeys;
 import com.jphilips.userdetails.dto.cqrs.CreateUserDetailsCommand;
 import com.jphilips.userdetails.dto.mapper.UserDetailsMapper;
 import com.jphilips.userdetails.service.UserDetailsManager;

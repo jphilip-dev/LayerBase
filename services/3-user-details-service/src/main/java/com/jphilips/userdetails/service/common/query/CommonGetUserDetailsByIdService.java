@@ -2,7 +2,7 @@ package com.jphilips.userdetails.service.common.query;
 
 import com.jphilips.shared.domain.util.Query;
 import com.jphilips.shared.domain.dto.UserDetailsResponseDto;
-import com.jphilips.shared.spring.redis.util.CacheKeys;
+import com.jphilips.shared.spring.redis.constant.CacheKeys;
 import com.jphilips.userdetails.dto.cqrs.GetUserDetailsByIdQuery;
 import com.jphilips.userdetails.dto.mapper.UserDetailsMapper;
 import com.jphilips.userdetails.service.UserDetailsManager;

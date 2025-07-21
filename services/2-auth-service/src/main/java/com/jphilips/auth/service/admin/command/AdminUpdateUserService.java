@@ -6,8 +6,8 @@ import com.jphilips.auth.service.AuthManager;
 import com.jphilips.auth.service.common.command.CommonUpdateUserService;
 import com.jphilips.shared.domain.dto.UserResponseDto;
 import com.jphilips.shared.domain.util.Command;
+import com.jphilips.shared.spring.redis.constant.CacheKeys;
 import com.jphilips.shared.spring.redis.service.RedisHelper;
-import com.jphilips.shared.spring.redis.util.CacheKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

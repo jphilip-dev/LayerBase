@@ -17,7 +17,6 @@ import java.util.Set;
 @Service
 public class RedisHelper {
 
-
     private final RedisTemplate<String, Object> redisTemplate;
     private static final String TAG_PREFIX = "tag::";
 
