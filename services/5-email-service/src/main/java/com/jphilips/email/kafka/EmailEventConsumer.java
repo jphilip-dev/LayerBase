@@ -1,6 +1,6 @@
 package com.jphilips.email.kafka;
 
-import com.jphilips.shared.domain.dto.kafka.AppEvent;
+import com.jphilips.shared.spring.kafka.dto.AppEvent;
 import com.jphilips.shared.spring.kafka.service.DLTHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

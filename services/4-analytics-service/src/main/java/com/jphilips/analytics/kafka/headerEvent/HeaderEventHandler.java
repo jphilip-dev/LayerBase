@@ -1,6 +1,6 @@
 package com.jphilips.analytics.kafka.headerEvent;
 
-import com.jphilips.shared.domain.dto.kafka.AppEvent;
+import com.jphilips.shared.spring.kafka.dto.AppEvent;
 import com.jphilips.analytics.dto.cqrs.command.CreateEventLogCommand;
 import com.jphilips.analytics.dto.mapper.HeaderEventLogMapper;
 import com.jphilips.analytics.service.command.CreateHeaderEventLogService;

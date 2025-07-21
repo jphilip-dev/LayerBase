@@ -1,6 +1,6 @@
 package com.jphilips.analytics.dto.mapper;
 
-import com.jphilips.shared.domain.dto.kafka.AppEvent;
+import com.jphilips.shared.spring.kafka.dto.AppEvent;
 import com.jphilips.analytics.dto.HeaderEventLogRequestDto;
 import com.jphilips.analytics.entity.HeaderEventLog;
 import org.springframework.stereotype.Component;

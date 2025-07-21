@@ -2,12 +2,12 @@ package com.jphilips.auth.service.auth.command;
 
 import com.jphilips.auth.dto.cqrs.command.RequestOtpCommand;
 import com.jphilips.auth.service.AuthManager;
-import com.jphilips.shared.domain.dto.kafka.payload.EmailOtpPayload;
-import com.jphilips.shared.domain.enums.EventType;
+import com.jphilips.shared.spring.kafka.dto.payload.EmailOtpPayload;
+import com.jphilips.shared.spring.kafka.enums.EventType;
 import com.jphilips.shared.domain.util.Command;
 import com.jphilips.shared.domain.util.OtpUtil;
 import com.jphilips.shared.spring.kafka.service.EventPublisher;
-import com.jphilips.shared.spring.kafka.util.KafkaTopics;
+import com.jphilips.shared.spring.kafka.config.KafkaTopics;
 import com.jphilips.shared.spring.redis.constant.CacheKeys;
 import com.jphilips.shared.spring.redis.service.RedisHelper;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.jphilips.shared.domain.dto.kafka;
+package com.jphilips.shared.spring.kafka.dto;
 
-import com.jphilips.shared.domain.enums.EventType;
+import com.jphilips.shared.spring.kafka.enums.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

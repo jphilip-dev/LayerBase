@@ -1,6 +1,6 @@
 package com.jphilips.analytics.entity;
 
-import com.jphilips.shared.domain.enums.EventType;
+import com.jphilips.shared.spring.kafka.enums.EventType;
 import jakarta.persistence.*;
 import lombok.*;
 
