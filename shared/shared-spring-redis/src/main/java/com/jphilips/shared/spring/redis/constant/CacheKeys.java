@@ -1,6 +1,6 @@
-package com.jphilips.shared.spring.redis.util;
+package com.jphilips.shared.spring.redis.constant;
 
-public class CacheKeys {
+public final class CacheKeys {
     private CacheKeys() {}
 
     public static class Auth {
@@ -13,7 +13,6 @@ public class CacheKeys {
         public static final String USER_BY_ID = "auth:user-by-id:";
         public static final String USER_PAGE = "auth:user-page:";
         public static final String USER_PAGE_TAG = "auth:user-page-tag";
-
     }
 
     public static class UserDetails{

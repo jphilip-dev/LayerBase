@@ -1,6 +1,5 @@
 package com.jphilips.shared.spring.redis.config;
 
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -23,8 +22,6 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-
-
 
     @Bean
     public GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer() {
